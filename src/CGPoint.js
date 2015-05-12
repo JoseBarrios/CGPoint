@@ -2,19 +2,16 @@
 
 export default class CGPoint {
 
-    constructor(x = null, y = null) {
-        var xCoordinate = Object.is(parseInt(x), NaN)? null : parseInt(x);
-        var yCoordinate = Object.is(parseInt(y), NaN)? null : parseInt(y);
-
+    constructor(x = 0, y = 0) {
         //Define x and y props with default setter
         Object.defineProperties(this, {
             'x': {
-                get: function(){return xCoordinate },
-                set: function(x){ xCoordinate = parseInt(x) }
+                get: function(){return parseInt(x) },
+                set: function(newX){ x = parseInt(newX) }
             },
             'y':{
-                get: function(){return yCoordinate},
-                set: function(y){ yCoordinate = parseInt(y) }
+                get: function(){return parseInt(y)},
+                set: function(newY){ y = parseInt(newY) }
             },
         });
     }

@@ -6,8 +6,7 @@ var positivePoint = new CGPoint(1, 3);
 var negativePoint = new CGPoint(-1, -3);
 var mixedPoint = new CGPoint(1, -3);
 var doubleProp = new CGPoint(1.1, -3.3 );
-var stringProp = new CGPoint("1", "3");
-var invalidString = new CGPoint('F','?');
+var stringProp = new CGPoint("1.1", "-3.3" );
 
 describe('CGPoint', function(){
 
@@ -16,19 +15,18 @@ describe('CGPoint', function(){
             assert.equal(doubleProp.x, 1);
             assert.equal(doubleProp.y, -3);
             assert.equal(stringProp.x, 1);
-            assert.equal(stringProp.y, 3);
+            assert.equal(stringProp.y, -3);
             assert.equal(mixedPoint.y, -3);
             assert.equal(negativePoint.x, -1);
             assert.equal(negativePoint.y, -3);
-            assert.equal(new CGPoint('x', 'z').x, null);
         })
     });
 
 
     describe('var defaultPointValues = new CGPoint()', function(){
-        it('default values should be null', function(){
-            assert.equal(defaultPointValues.x, null);
-            assert.equal(defaultPointValues.y, null);
+        it('default values should be (0,0)', function(){
+            assert.equal(defaultPointValues.x, 0);
+            assert.equal(defaultPointValues.y, 0);
         })
     });
 
@@ -44,7 +42,6 @@ describe('CGPoint', function(){
             assert.equal(defaultPointValues.equalToPoint(new CGPoint()), true);
             assert.equal(positivePoint.equalToPoint(new CGPoint(1, 3)), true);
             assert.equal(negativePoint.equalToPoint(new CGPoint(-1, -3)), true);
-            assert.equal(stringProp.equalToPoint(new CGPoint(1, 3)), true);
             assert.equal(mixedPoint.equalToPoint(new CGPoint(1, -3)), true);
             assert.equal(positivePoint.equalToPoint(positivePoint), true);
             assert.equal(positivePoint.equalToPoint(), false);
