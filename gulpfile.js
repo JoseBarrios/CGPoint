@@ -7,6 +7,6 @@ gulp.task("default", function () {
     return gulp.src("src/*.js")
     .pipe(babel())
     .pipe(uglify())
-    .pipe(rename('index.js'))
-    .pipe(gulp.dest(__dirname));
+    .pipe(rename('index.min.js'))
+    .pipe(gulp.dest(__dirname + '/dist'));
 });

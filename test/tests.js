@@ -1,4 +1,4 @@
-var CGPoint = require('../index.js');
+var CGPoint = require('../dist/index.min.js');
 var assert = require("assert")
 
 var defaultPointValues = new CGPoint();
