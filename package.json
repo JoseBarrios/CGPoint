@@ -1,6 +1,6 @@
 {
     "name": "cg-point",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "An object representing a point in a two-dimensional coordinate system.",
     "main": "dist/index.min.js",
     "directories": {
