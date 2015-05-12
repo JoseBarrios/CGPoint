@@ -16,12 +16,14 @@ export default class CGPoint {
         });
     }
 
+    get(){
+        return {x:this.x, y:this.y}
+    }
+
     // Returns true if equal
-    equalToPoint(otherPoint) {
-        var thisPoint = this;
-        var otherPoint = otherPoint || {};
-        var xMatch = Object.is(thisPoint.x, otherPoint.x);
-        var yMatch = Object.is(thisPoint.y, otherPoint.y);
+    equalToPoint(otherPoint = new CGPoint()) {
+        var xMatch = Object.is(this.x, otherPoint.x);
+        var yMatch = Object.is(this.y, otherPoint.y);
         return (xMatch && yMatch);
     }
 };
