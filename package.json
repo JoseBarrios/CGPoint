@@ -1,0 +1,37 @@
+{
+    "name": "CGPoint",
+    "version": "0.0.1",
+    "description": "An object representing a point in a two-dimensional coordinate system.",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "start": "./node_modules/gulp/bin/gulp.js",
+        "test": "npm start; mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JoseBarrios/cogniKit"
+    },
+    "keywords": [
+        "cognitive",
+        "research",
+        "framework",
+        "web",
+        "javascript",
+        "js"
+    ],
+    "author": "JoseBarrios",
+    "bugs": {
+        "url": "https://github.com/JoseBarrios/cogniKit/issues"
+    },
+    "homepage": "https://github.com/JoseBarrios/cogniKit",
+    "devDependencies": {
+        "chai": "^2.1.1",
+        "gulp": "^3.8.11",
+        "gulp-babel": "^4.0.0",
+        "gulp-rename": "^1.2.0",
+        "gulp-uglify": "^1.1.0"
+    }
+}
