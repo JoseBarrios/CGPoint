@@ -3,7 +3,7 @@ A structure that contains a point in a two-dimensional ( x , y ) coordinate syst
 ```js
 var CGPoint = require('cg-point');
 
-// Create point in 2D space where x = 5 and y = 10
+// Create point in 2D space
 var point = new CGPoint(5, 10);
 console.log(point.x); // 5
 console.log(point.y); // 10
