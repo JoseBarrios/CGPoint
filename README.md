@@ -20,4 +20,5 @@ point.equalToPoint(otherPoint); //true
 
 ```
 
+<h2>TODO</h2><hr><b>distanceToPoint ( point: CGPoint )</b>&nbsp;<div>Computes the shortest path to another point.&nbsp;</div><div>Returns number</div>
 
