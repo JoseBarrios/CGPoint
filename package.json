@@ -1,5 +1,5 @@
 {
-    "name": "CGPoint",
+    "name": "cg-point",
     "version": "0.0.1",
     "description": "An object representing a point in a two-dimensional coordinate system.",
     "main": "index.js",
