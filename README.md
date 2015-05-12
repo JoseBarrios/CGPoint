@@ -1,4 +1,4 @@
-A structure that contains a point in a two-dimensional (x,y) coordinate system.
+A structure that contains a point in a two-dimensional ( x , y ) coordinate system.
 <h2>Usage</h2><hr>
 ```js
 var CGPoint = require('cg-point');
@@ -11,6 +11,7 @@ var point = new CGPoint(5, 10);
 ```js
 var otherPoint = new CGPoint(10, 20);
 point.equalToPoint(otherPoint); //false
+point.equalToPoint(new CGPoint(5, 10)); //true
 ```
 
 
