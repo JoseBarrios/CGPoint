@@ -2,7 +2,6 @@ var CGPoint = require('../dist/index.min.js');
 var assert = require("assert")
 
 var defaultPointValues = new CGPoint();
-var defaultY = new CGPoint(1);
 var positivePoint = new CGPoint(1, 3);
 var negativePoint = new CGPoint(-1, -3);
 var mixedPoint = new CGPoint(1, -3);
