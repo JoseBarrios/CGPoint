@@ -1,160 +1,273 @@
 'use strict'
 
-/* A class that contains a point in a two-dimensional coordinate system,
+/**
+ * A class that contains a point in a two-dimensional coordinate system,
  * where the origin is at the top-left.
  *
  * @author Jose Barrios
- * @version 1.2.0
+ * @version 1.0.0-
  *
  * @class
  */
+class CGPoint {
 
-class CGPoint{ //Node module exports
+  /**
+   * A point that has infinite extent.
+   * @returns {CGPoint} point with infinite extent
+   */
+  static get infinite() {
+    return new CGPoint(Infinity, Infinity);
+  }
 
 
-    //static get ZERO(){
-        //return new CGPoint(0,0);
-    //}
+  /**
+   * The null point.Note that the null point is not the same as the zero
+   * point. For example, the addition of a point with the null point is the
+   * original point (that is, the null point contributes nothing).
+   * @returns {CGPoint} a null point
+   */
+  static get null() {
+    return new CGPoint(null, null);
+  }
 
-    /* Creates an instance of CGPoint.
-     *
-     * @constructor
-     * @this {CGPoint}
-     * @param {number} x - The desired horizontal coordinate of the CGPoint.
-     * @param {number} y - The desired vertical of the CGPoint.
-     */
-    constructor(x = 0, y = 0) {
-        //Define x and y props with default setter
-        this.x = x;
-        this.y = y;
 
+  /**
+   * The zero point
+   * @return {CGPoint} returns a zero rect, that is: CGPoint(0,0)
+   */
+  static get zero() {
+    return new CGPoint(0, 0);
+  }
+
+
+  /** TODO: Turn into a global object, instead of a static method
+   * Returns a Core Graphics point structure corresponding to the data in
+   * a given string.
+   *
+   * @param {string}  A string whose contents are of the form “{x,y}”, where
+   * x is the x coordinate, y is the y coordinate. These components can
+   * represent integer or float values. An example of a valid string is
+   * ”{3,2}”.  The string is not localized, so items are always separated
+   * with a comma.
+   *
+   * @returns {CGPoint} a point. If the string is not well-formed, the
+   * function returns CGRectZero.
+   */
+  static fromString(string = '') {
+    const numbers = new RegExp('[-]?\\d+(\\.\\d+)?', 'g');
+    const dimentions = string.match(numbers);
+    let result = CGPoint.zero;
+    if (dimentions) {
+      const validInput = dimentions.length === 2;
+      result = validInput ? new CGPoint(...dimentions) : CGPoint.zero;
     }
+    return result;
+  }
 
 
-    /* Sets the horizontal coordinate of the CGPoint.
-     *
-     * @public
-     * @property {number} x
-     */
-    get x(){ return this._x}
-    set x(value){
-        if(value === this._x){ return };
-        this._x = Number(value);
+  /**
+   * Creates an instance of CGPoint.
+   *
+   * @constructor
+   * @this {CGPoint}
+   * @param {number} x - The desired horizontal coordinate of the CGPoint.
+   * @param {number} y - The desired vertical of the CGPoint.
+   */
+  constructor(x = null, y = null) {
+    this.private = {};
+    this.x = x;
+    this.y = y;
+  }
+
+
+  /**
+   * The horizontal coordinate getter
+   *
+   * @name x
+   * @function
+   * @public
+   * @returns {number} horizontal coordinate
+   */
+  get x() {
+    return this.private.x;
+  }
+
+  /**
+   * The horizontal coordinte settter
+   *
+   * @name x
+   * @function
+   * @public
+   * @param {number} value-horizontal coordinate
+   */
+  set x(value) {
+    //value = new JSValue(value);
+    //this.private.x = value.toNumber();
+    this.private.x = this._cast(value);
+  }
+
+  /**
+   * The vertical coordinate getter
+   *
+   * @name y
+   * @function
+   * @public
+   * @returns {number} the vertical coordinate
+   */
+  get y() {
+    return this.private.y;
+  }
+
+  /**
+   * The vertical coordinate setter
+   *
+   * @name y
+   * @function
+   * @public
+   * @param {number} value - the horizontal coordinate
+   */
+  set y(value) {
+    this.private.y = this._cast(value);
+  }
+
+
+  /**
+   * Converts all primitive types to numbers
+   *
+   * @name _cast
+   * @function
+   * @private
+   * @param {*} value - a coordinate value
+   * @returns {number} the casted value
+   */
+  _cast(value) {
+    const rules = new Map();
+    rules.set('number', (val) => {
+      return val;
+    });
+    rules.set('object', (val) => {
+      return null;
+    });
+    rules.set('boolean', (val) => {
+      return null;
+    });
+    rules.set('undefined', (val) => {
+      return 0;
+    });
+    rules.set('string', (val) => {
+      return Number(val);
+    });
+    //  TODO: prefered way to check for null is x === null,
+    //  or x == null (null or undefined)
+    return rules.get(typeof value).apply(this, [value]);
+  }
+
+
+  /**
+   * Returns whether two points are equal in coordinate values.
+   *
+   * @name equalTo
+   * @function
+   * @throws {Error} If no argument is provided
+   * @throws {Error} If argument is not of type CGPoint
+   *
+   * @param {CGPoint} point2 - point
+   * @returns {boolean} true if the two specified points have equal
+   * coordinate values, or if both points are null points. Otherwise, false.
+   */
+  equalTo(point2, str) {
+    if (point2 instanceof CGPoint) {
+      const isNull = this.isNull && point2.isNull;
+      const xMatch = this.x === point2.x;
+      const yMatch = this.y === point2.y;
+      const isMatch = xMatch && yMatch;
+      return isNull || isMatch;
     }
+    else throw new TypeError('#equalTo(): Expects argument of type CGPoint');
+  }
 
 
-    /* The vertical coordinate of the CGPoint.
-     *
-     * @public
-     * @property {number} y
-     */
-    get y(){ return this._y}
-    set y(value){
-        if(value === this._y){ return };
-        this._y = Number(value);
-    }
+  /**
+   * Converts point to string representation '{x,y}'
+   *
+   * @name toString
+   * @function
+   * @public
+   * @returns {string} representing the point
+   */
+  toString() {
+    return `{${this.x},${this.y}}`;
+  }
 
 
-    /* Checks if CGPoint coordinates match another CGPoint's coordinates (inclusive OR).
-     * TODO:
-     *  1) Allow arguments of Object type equalTo({x:0, y:0})
-     *  2) Allow arguments of Number equalTo(0,0)
-     *
-     * @this {CGPoint}
-     * @throws {ReferenceError} If no argument is provided
-     * @throws {TypeError} If argument is not a CGPoint
-     * @return {boolean} True if both CGPoint' coodinates match. False otherwise.
-     */
-    equalTo(otherCGPoint) {
-        const hasArguments = Boolean(arguments.length);
-        const correctArgumentType = otherCGPoint instanceof CGPoint;
-        const validInput = hasArguments && correctArgumentType;
-
-        if(validInput){
-            let xMatch = Object.is(this.x, otherCGPoint.x);
-            let yMatch = Object.is(this.y, otherCGPoint.y);
-            return (xMatch && yMatch);
-        }
-
-        let msg = `equalTo(): Expects at least 1 argument of type CGPoint`;
-        let error = hasArguments? new TypeError(msg) : new ReferenceError(msg);
-        throw error;
-    }
-
-    //TODO:
-    //Negate the point's coordinates
-    //negate() {}
-    //static addition(){}
-    //static substraction(){}
-    //static equality(){}
-    //static inequality(){}
-    toString() { return `{${this.x}, ${this.y}}` }
+  /**
+   * Returns the smallest point that results from converting the source
+   * point values to integers.
+   *
+   * A point with the smallest integer values for its x and y coorindates.
+   * That is, given a point with fractional x or y values, integral rounds
+   * down the points x or y coordinates to the nearest whole integer. Returns
+   * a null point if rect is a null point.
+   *
+   * @returns {CGPoint} The smallest point that results from converting the
+   * source point values to integers.
+   */
+  get integral() {
+    const intX = Math.floor(this.x);
+    const intY = Math.floor(this.y);
+    return this.isNull ? CGPoint.null : new CGPoint(intX, intY);
+  }
 
 
+  /**
+   * Returns whether a point's x and y are zero, or is a null point.
+   *
+   * An empty point is either a null point or a valid point with zero x or y.
+   *
+   * @returns {boolean} true if the specified point is empty;
+   * otherwise, false.
+   */
+  get isEmpty() {
+    const isEmpty = this.x === 0 && this.y === 0;
+    return this.isNull || isEmpty;
+  }
 
 
-    //////////////////////////////////////////////
-    //
-    //  DEPRECATION NOTICE:
-    //
-    //  1)  equalToPoint():
-    //      The above method is deprecated as of v1.2.0.
-    //      and it will be removed in v2. Please use equalTo()
-    //
-    //  2)  get():
-    //      The above method is deprecated as of v1.2.0.
-    //      and it will be removed in v2. Please use toString()
-    //      or toObject() instead
-    //
-    //
-    /////////////////////////////////////////////
+  /**
+   * Returns whether a point is infinite for either -/+ infinities.
+   *
+   * An infinite point is one that has no defined bounds.
+   *
+   * @returns {boolean} Returns true if the specified point is infinite;
+   * otherwise, false.
+   */
+  get isInfinite() {
+    const xInfinite = this.x === Infinity || this.x === -Infinity;
+    const yInfinite = this.y === Infinity || this.y === -Infinity;
+    return xInfinite && yInfinite;
+  }
 
 
-    equalToPoint(otherCGPoint = new CGPoint()) {
-        console.warn('equalToPoint(): Deprecated. Please use equalTo()');
-        var xMatch = Object.is(this.x, otherCGPoint.x);
-        var yMatch = Object.is(this.y, otherCGPoint.y);
-        return (xMatch && yMatch);
-    }
-    get() {
-        console.warn('get(): Deprecated. Use toString() or toObject() instead');
-        return {x:this.x, y:this.y}
-    }
+  /**
+   * Returns whether the point is equal to the null point.
+   *
+   * Unlike CGPoint.zero, CGPoint.null has no assigned position
+   *
+   * @returns {boolean} true if the specified point is null;
+   * otherwise, false.
+   */
+  get isNull() {
+    return this.x === null && this.y === null;
+  }
+
 
 } // No semicolon!
 
 
-
-
-/*
- * Static read-only property
- *
- * Why not use ES6's static get ZERO() instead?
- * TL;DR: Better for memory, has clearer syntax and
- * enables ZERO to be a read-only property.
- *
- * - ES6's static getters are read/write.
- * - Object.defineProperty allows read-only props
- * - ES6 static get returns new instance of CGPoint(0,0) everytime it is called
- * - Object.defineProperty  returns same instance every time it is called
- *
- * - ES6 static getter makes syntax Point.ZERO()
- * - Object.defineProperty makes syntax: Point.ZERO
- * - More info: https://goo.gl/00iVP7
- */
-const ZERO = {};
-ZERO.value = new CGPoint(0,0);
-ZERO.configurable= false;
-ZERO.enumerable= false;
-ZERO.writable= false;
-Object.defineProperty(CGPoint, 'ZERO', ZERO);
-
-
-
-////////////////////////////////////////////////////
+////////////////
 //
 //  EXPORTS
 //
-/////////////////////////////////////////////////////
-module.exports = CGPoint; //Node module exports
-//export default CGPoint;  //ES6 module exports syntax
+////////////////
+module.exports = CGPoint;
+
