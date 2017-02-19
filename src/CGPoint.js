@@ -57,57 +57,6 @@ class CGPoint {
   }
 
   /**
-   * Returns whether a point's x and y are zero, or is a null point.
-   *
-   * An empty point is either a null point or a valid point with zero x or y.
-   *
-   * @returns {boolean} true if the specified point is empty;
-   * otherwise, false.
-   */
-  get isEmpty() {
-    const isEmpty = this._x === 0 && this._y === 0;
-    return this.isNull || isEmpty;
-  }
-
-  /**
-   * Returns whether a point is infinite for either -/+ infinities.
-   *
-   * An infinite point is one that has no defined bounds.
-   *
-   * @returns {boolean} Returns true if the specified point is infinite;
-   * otherwise, false.
-   */
-  get isInfinite() {
-    const xInfinite = this._x === Infinity || this._x === -Infinity;
-    const yInfinite = this._y === Infinity || this._y === -Infinity;
-    return xInfinite && yInfinite;
-  }
-
-  /**
-   * Returns whether the point is equal to the null point.
-   *
-   * Unlike CGPoint.zero, CGPoint.null has no assigned position
-   *
-   * @returns {boolean} true if the specified point is null;
-   * otherwise, false.
-   */
-  get isNull() {
-    return this._x === null && this._y === null;
-  }
-
-  /**
-   * Converts point to string representation '{x,y}'
-   *
-   * @name toString
-   * @function
-   * @public
-   * @returns {string} representing the point
-   */
-  static toString(point) {
-    return `{${point.x},${point.y}}`;
-  }
-
-  /**
    * Turns a formatted string into a CGPoint instance
    * @param {string}  A string whose contents are of the form “{x,y}”, where
    * x is the x coordinate, y is the y coordinate. These components can
@@ -127,24 +76,6 @@ class CGPoint {
       result = validInput ? new CGPoint(...dimentions) : CGPoint.null;
     }
     return result;
-  }
-
-  /**
-   * Returns the smallest point that results from converting the source
-   * point values to integers.
-   *
-   * A point with the smallest integer values for its x and y coorindates.
-   * That is, given a point with fractional x or y values, integral rounds
-   * down the points x or y coordinates to the nearest whole integer. Returns
-   * a null point if rect is a null point.
-   *
-   * @returns {CGPoint} The smallest point that results from converting the
-   * source point values to integers.
-   */
-  static integral(point) {
-    const intX = Math.floor(point.x);
-    const intY = Math.floor(point.y);
-    return point.isNull ? CGPoint.null : new CGPoint(intX, intY);
   }
 
   /**
@@ -198,6 +129,75 @@ class CGPoint {
   }
 
   /**
+   * Returns whether a point's x and y are zero, or is a null point.
+   *
+   * An empty point is either a null point or a valid point with zero x or y.
+   *
+   * @returns {boolean} true if the specified point is empty;
+   * otherwise, false.
+   */
+  get isEmpty() {
+    const isEmpty = this._x === 0 && this._y === 0;
+    return this.isNull || isEmpty;
+  }
+
+  /**
+   * Returns whether a point is infinite for either -/+ infinities.
+   *
+   * An infinite point is one that has no defined bounds.
+   *
+   * @returns {boolean} Returns true if the specified point is infinite;
+   * otherwise, false.
+   */
+  get isInfinite() {
+    const xInfinite = this._x === Infinity || this._x === -Infinity;
+    const yInfinite = this._y === Infinity || this._y === -Infinity;
+    return xInfinite && yInfinite;
+  }
+
+  /**
+   * Returns whether the point is equal to the null point.
+   *
+   * Unlike CGPoint.zero, CGPoint.null has no assigned position
+   *
+   * @returns {boolean} true if the specified point is null;
+   * otherwise, false.
+   */
+  get isNull() {
+    return this._x === null && this._y === null;
+  }
+
+  /**
+   * Returns the smallest point that results from converting the source
+   * point values to integers.
+   *
+   * A point with the smallest integer values for its x and y coorindates.
+   * That is, given a point with fractional x or y values, integral rounds
+   * down the points x or y coordinates to the nearest whole integer. Returns
+   * a null point if rect is a null point.
+   *
+   * @returns {CGPoint} The smallest point that results from converting the
+   * source point values to integers.
+   */
+  get integral() {
+    const intX = Math.floor(this._x);
+    const intY = Math.floor(this._y);
+    return this.isNull ? CGPoint.null : new CGPoint(intX, intY);
+  }
+
+  /**
+   * Converts point to string representation '{x,y}'
+   *
+   * @name toString
+   * @function
+   * @public
+   * @returns {string} representing the point
+   */
+  toString() {
+    return `{${this._x},${this._y}}`;
+  }
+
+  /**
    * Returns whether two points are equal in coordinate values.
    *
    * @name equalTo
@@ -220,9 +220,11 @@ class CGPoint {
     else throw new TypeError('#equalTo(): Expects argument of type CGPoint');
   }
 
+  //TODO
+  //#distanceTo()
+
 } // No semicolon!
 
-////////////////
-//  EXPORTS
-////////////////
+
+//EXPORTS
 module.exports = CGPoint;

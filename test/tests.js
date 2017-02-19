@@ -41,27 +41,6 @@ describe(`CGPoint Static Methods`, function(){
     })
   });
 
-  describe(`CGPoint.integral(point)`, function(){
-    it(`CGPoint.integral(ZERO) should return {0,0}`, function(){
-      assert.deepEqual( CGPoint.integral(ZERO), new CGPoint(0,0) );
-    });
-    it(`CGPoint.integral(POSITIVE) should return {1,3}`, function(){
-      assert.deepEqual( CGPoint.integral(POSITIVE), new CGPoint(1,3) );
-    });
-    it(`CGPoint.integral(NEGATIVE) should return {-1,-3}`, function(){
-      assert.deepEqual( CGPoint.integral(NEGATIVE), new CGPoint(-1,-3) );
-    });
-    it(`CGPoint.integral(MIXED) should return {1,-3}`, function(){
-      assert.deepEqual( CGPoint.integral(MIXED), new CGPoint(1,-3) );
-    });
-    it(`CGPoint.integral(DOUBLE) should return {1,-4}`, function(){
-      assert.deepEqual( CGPoint.integral(DOUBLE), new CGPoint(1,-4) );
-    });
-    it(`CGPoint.integral(STRING) should return {-2,3}`, function(){
-      assert.deepEqual( CGPoint.integral(STRING), new CGPoint(-2,3) );
-    });
-  });
-
   describe(`CGPoint.fromString()`, function(){
     it(`CGPoint.fromString("{0,0}") should return ${ZERO}`, function(){
       assert.deepEqual( CGPoint.fromString("{0,0}"), ZERO );
@@ -80,27 +59,6 @@ describe(`CGPoint Static Methods`, function(){
     });
     it(`CGPoint.fromString("@#$!@#$") should return ${ZERO}`, function(){
       assert.deepEqual( CGPoint.fromString("@#!$%@#"), ZERO );
-    });
-  });
-
-  describe(`CGPoint.toString()`, function(){
-    it(`CGPoint.toString(ZERO) should return "{0,0}"`, function(){
-      assert.equal( CGPoint.toString(ZERO), `{0,0}` );
-    });
-    it(`CGPoint.toString(POSITIVE) should return "{1,3}"`, function(){
-      assert.equal( CGPoint.toString(POSITIVE), `{1,3}` );
-    });
-    it(`CGPoint.toString(NEGATIVE) should return "{-1,-3}"`, function(){
-      assert.equal( CGPoint.toString(NEGATIVE), `{-1,-3}` );
-    });
-    it(`CGPoint.toString(MIXED) should return "{1,-3}"`, function(){
-      assert.equal( CGPoint.toString(MIXED), `{1,-3}` );
-    });
-    it(`CGPoint.toString(DOUBLE) should return "{1.2,-3.4}"`, function(){
-      assert.equal( CGPoint.toString(DOUBLE), `{1.2,-3.4}` );
-    });
-    it(`CGPoint.toString(STRING) should return "{-1.2,3.4}"`, function(){
-      assert.equal( CGPoint.toString(STRING), `{-1.2,3.4}` );
     });
   });
 
@@ -171,8 +129,51 @@ describe(`CGPoint Instance Methods`, function(){
     });
   });
 
-  describe(`#equalTo()`, function(){
+  describe(`#integral`, function(){
+    it(`ZERO.integral should return {0,0}`, function(){
+      assert.deepEqual( ZERO.integral, new CGPoint(0,0) );
+    });
+    it(`POSITIVE.integral should return {1,3}`, function(){
+      assert.deepEqual( POSITIVE.integral, new CGPoint(1,3) );
+    });
+    it(`NEGATIVE.integral should return {-1,-3}`, function(){
+      assert.deepEqual( NEGATIVE.integral, new CGPoint(-1,-3) );
+    });
+    it(`MIXED.integral should return {1,-3}`, function(){
+      assert.deepEqual( MIXED.integral, new CGPoint(1,-3) );
+    });
+    it(`DOUBLE.integral should return {1,-4}`, function(){
+      assert.deepEqual( DOUBLE.integral, new CGPoint(1,-4) );
+    });
+    it(`STRING.integral should return {-2,3}`, function(){
+      assert.deepEqual( STRING.integral, new CGPoint(-2,3) );
+    });
+  });
 
+
+  describe(`#toString()`, function(){
+    it(`ZERO.toString() should return "{0,0}"`, function(){
+      assert.equal( ZERO.toString(), `{0,0}` );
+    });
+    it(`POSITIVE.toString() should return "{1,3}"`, function(){
+      assert.equal( POSITIVE.toString(), `{1,3}` );
+    });
+    it(`NEGATIVE.toString() should return "{-1,-3}"`, function(){
+      assert.equal( NEGATIVE.toString(), `{-1,-3}` );
+    });
+    it(`MIXED.toString() should return "{1,-3}"`, function(){
+      assert.equal( MIXED.toString(), `{1,-3}` );
+    });
+    it(`DOUBLE.toString() should return "{1.2,-3.4}"`, function(){
+      assert.equal( DOUBLE.toString(), `{1.2,-3.4}` );
+    });
+    it(`STRING.toString() should return "{-1.2,3.4}"`, function(){
+      assert.equal( STRING.toString(), `{-1.2,3.4}` );
+    });
+  });
+
+
+  describe(`#equalTo()`, function(){
     it(`ZERO should equal ZERO`, function(){
       assert.equal( ZERO.equalTo(ZERO), true);
     });
