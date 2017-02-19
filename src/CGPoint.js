@@ -25,7 +25,6 @@ class CGPoint {
   constructor(x = null, y = null) {
     this.x = x;
     this.y = y;
-
     //Private variables map
     _private.set(this, { x, y })
   }
@@ -70,7 +69,6 @@ class CGPoint {
     return this.isNull || isEmpty;
   }
 
-
   /**
    * Returns whether a point is infinite for either -/+ infinities.
    *
@@ -84,7 +82,6 @@ class CGPoint {
     const yInfinite = this._y === Infinity || this._y === -Infinity;
     return xInfinite && yInfinite;
   }
-
 
   /**
    * Returns whether the point is equal to the null point.
@@ -150,9 +147,6 @@ class CGPoint {
     return point.isNull ? CGPoint.null : new CGPoint(intX, intY);
   }
 
-
-
-
   /**
    * The horizontal coordinate getter
    *
@@ -203,7 +197,6 @@ class CGPoint {
     this.y = this._cast(value);
   }
 
-
   /**
    * Returns whether two points are equal in coordinate values.
    *
@@ -227,17 +220,9 @@ class CGPoint {
     else throw new TypeError('#equalTo(): Expects argument of type CGPoint');
   }
 
-
-
-
-
 } // No semicolon!
 
-
 ////////////////
-//
 //  EXPORTS
-//
 ////////////////
 module.exports = CGPoint;
-

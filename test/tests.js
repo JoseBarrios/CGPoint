@@ -1,108 +1,112 @@
 const assert = require("assert");
-const Point = require(`../src/CGPoint.js`);
+const CGPoint = require(`../src/CGPoint.js`);
 
-describe(`Point`, function(){
+//Points
+const DEFAULT = new CGPoint();
+const ZERO = new CGPoint(0,0);
+const POSITIVE = new CGPoint(1, 3);
+const NEGATIVE = new CGPoint(-1, -3);
+const MIXED = new CGPoint(1, -3);
+const DOUBLE = new CGPoint(1.2, -3.4 );
+const STRING = new CGPoint("-1.2", "3.4" );
+const INFINITE = new CGPoint(Infinity, Infinity);
+//Errors
+const EQUALTO_ERROR_MSG = '#equalTo(): Expects argument of type CGPoint';
+const EQUALTO_ERROR = new TypeError(EQUALTO_ERROR_MSG);
 
-  //Points
-  const DEFAULT = new Point();
-  const ZERO = new Point(0,0);
-  const POSITIVE = new Point(1, 3);
-  const NEGATIVE = new Point(-1, -3);
-  const MIXED = new Point(1, -3);
-  const DOUBLE = new Point(1.2, -3.4 );
-  const STRING = new Point("-1.2", "3.4" );
-  const INFINITE = new Point(Infinity, Infinity);
-  //Errors
-  const EQUALTO_ERROR_MSG = '#equalTo(): Expects argument of type CGPoint';
-  const EQUALTO_ERROR = new TypeError(EQUALTO_ERROR_MSG);
 
-  describe(`Point.zero`, function(){
-    it(`returns a new instance of Point(0,0)`, function(){
-      assert.deepEqual( Point.zero, new Point(0,0));
-      Point.zero.x = 1;
-      assert.deepEqual( Point.zero, new Point(0,0));
+describe(`CGPoint Static Methods`, function(){
+
+  describe(`CGPoint.zero`, function(){
+    it(`returns a new instance of CGPoint(0,0)`, function(){
+      assert.deepEqual( CGPoint.zero, new CGPoint(0,0));
+      CGPoint.zero.x = 1;
+      assert.deepEqual( CGPoint.zero, new CGPoint(0,0));
     })
   });
 
-  describe(`Point.null`, function(){
-    it(`returns a new instance of Point where x, y are null`, function(){
-      assert.deepEqual(Point.null, new Point());
-      let nullPoint = new Point(0,0);
+  describe(`CGPoint.null`, function(){
+    it(`returns a new instance of CGPoint where x, y are null`, function(){
+      assert.deepEqual(CGPoint.null, new CGPoint());
+      let nullPoint = new CGPoint(0,0);
       nullPoint.x = null;
       nullPoint.y = null;
-      assert.deepEqual( Point.null, nullPoint);
+      assert.deepEqual( CGPoint.null, nullPoint);
     })
   });
 
-  describe(`Point.infinite`, function(){
-    it(`returns a new instance of Point where x, y are Infinte`, function(){
-      assert.deepEqual(Point.infinite, new Point(Infinity, Infinity));
+  describe(`CGPoint.infinite`, function(){
+    it(`returns a new instance of CGPoint where x, y are Infinte`, function(){
+      assert.deepEqual(CGPoint.infinite, new CGPoint(Infinity, Infinity));
     })
   });
 
-  describe(`Point.integral(point)`, function(){
-    it(`Point.integral(ZERO) should return {0,0}`, function(){
-      assert.deepEqual( Point.integral(ZERO), new Point(0,0) );
+  describe(`CGPoint.integral(point)`, function(){
+    it(`CGPoint.integral(ZERO) should return {0,0}`, function(){
+      assert.deepEqual( CGPoint.integral(ZERO), new CGPoint(0,0) );
     });
-    it(`Point.integral(POSITIVE) should return {1,3}`, function(){
-      assert.deepEqual( Point.integral(POSITIVE), new Point(1,3) );
+    it(`CGPoint.integral(POSITIVE) should return {1,3}`, function(){
+      assert.deepEqual( CGPoint.integral(POSITIVE), new CGPoint(1,3) );
     });
-    it(`Point.integral(NEGATIVE) should return {-1,-3}`, function(){
-      assert.deepEqual( Point.integral(NEGATIVE), new Point(-1,-3) );
+    it(`CGPoint.integral(NEGATIVE) should return {-1,-3}`, function(){
+      assert.deepEqual( CGPoint.integral(NEGATIVE), new CGPoint(-1,-3) );
     });
-    it(`Point.integral(MIXED) should return {1,-3}`, function(){
-      assert.deepEqual( Point.integral(MIXED), new Point(1,-3) );
+    it(`CGPoint.integral(MIXED) should return {1,-3}`, function(){
+      assert.deepEqual( CGPoint.integral(MIXED), new CGPoint(1,-3) );
     });
-    it(`Point.integral(DOUBLE) should return {1,-4}`, function(){
-      assert.deepEqual( Point.integral(DOUBLE), new Point(1,-4) );
+    it(`CGPoint.integral(DOUBLE) should return {1,-4}`, function(){
+      assert.deepEqual( CGPoint.integral(DOUBLE), new CGPoint(1,-4) );
     });
-    it(`Point.integral(STRING) should return {-2,3}`, function(){
-      assert.deepEqual( Point.integral(STRING), new Point(-2,3) );
+    it(`CGPoint.integral(STRING) should return {-2,3}`, function(){
+      assert.deepEqual( CGPoint.integral(STRING), new CGPoint(-2,3) );
     });
   });
 
-  describe(`Point.fromString()`, function(){
+  describe(`CGPoint.fromString()`, function(){
     it(`CGPoint.fromString("{0,0}") should return ${ZERO}`, function(){
-      assert.deepEqual( Point.fromString("{0,0}"), ZERO );
+      assert.deepEqual( CGPoint.fromString("{0,0}"), ZERO );
     });
     it(`CGPoint.fromString("{1,3}") should return ${POSITIVE}`, function(){
-      assert.deepEqual( Point.fromString("{1,3}"), POSITIVE );
+      assert.deepEqual( CGPoint.fromString("{1,3}"), POSITIVE );
     });
     it(`CGPoint.fromString("{-1,-3}") should return ${NEGATIVE}`, function(){
-      assert.deepEqual( Point.fromString("{-1,-3}"), NEGATIVE );
+      assert.deepEqual( CGPoint.fromString("{-1,-3}"), NEGATIVE );
     });
     it(`CGPoint.fromString("{1,-3}") should return ${MIXED}`, function(){
-      assert.deepEqual( Point.fromString("{1,-3}"), MIXED );
+      assert.deepEqual( CGPoint.fromString("{1,-3}"), MIXED );
     });
     it(`CGPoint.fromString("{1.2,-3.4}") should return ${DOUBLE}`, function(){
-      assert.deepEqual( Point.fromString("1.2,-3.4"), DOUBLE );
+      assert.deepEqual( CGPoint.fromString("1.2,-3.4"), DOUBLE );
     });
     it(`CGPoint.fromString("@#$!@#$") should return ${ZERO}`, function(){
-      assert.deepEqual( Point.fromString("@#!$%@#"), ZERO );
-    });
-
-  });
-
-  describe(`Point.toString()`, function(){
-    it(`Point.toString(ZERO) should return "{0,0}"`, function(){
-      assert.equal( Point.toString(ZERO), `{0,0}` );
-    });
-    it(`Point.toString(POSITIVE) should return "{1,3}"`, function(){
-      assert.equal( Point.toString(POSITIVE), `{1,3}` );
-    });
-    it(`Point.toString(NEGATIVE) should return "{-1,-3}"`, function(){
-      assert.equal( Point.toString(NEGATIVE), `{-1,-3}` );
-    });
-    it(`Point.toString(MIXED) should return "{1,-3}"`, function(){
-      assert.equal( Point.toString(MIXED), `{1,-3}` );
-    });
-    it(`Point.toString(DOUBLE) should return "{1.2,-3.4}"`, function(){
-      assert.equal( Point.toString(DOUBLE), `{1.2,-3.4}` );
-    });
-    it(`Point.toString(STRING) should return "{-1.2,3.4}"`, function(){
-      assert.equal( Point.toString(STRING), `{-1.2,3.4}` );
+      assert.deepEqual( CGPoint.fromString("@#!$%@#"), ZERO );
     });
   });
+
+  describe(`CGPoint.toString()`, function(){
+    it(`CGPoint.toString(ZERO) should return "{0,0}"`, function(){
+      assert.equal( CGPoint.toString(ZERO), `{0,0}` );
+    });
+    it(`CGPoint.toString(POSITIVE) should return "{1,3}"`, function(){
+      assert.equal( CGPoint.toString(POSITIVE), `{1,3}` );
+    });
+    it(`CGPoint.toString(NEGATIVE) should return "{-1,-3}"`, function(){
+      assert.equal( CGPoint.toString(NEGATIVE), `{-1,-3}` );
+    });
+    it(`CGPoint.toString(MIXED) should return "{1,-3}"`, function(){
+      assert.equal( CGPoint.toString(MIXED), `{1,-3}` );
+    });
+    it(`CGPoint.toString(DOUBLE) should return "{1.2,-3.4}"`, function(){
+      assert.equal( CGPoint.toString(DOUBLE), `{1.2,-3.4}` );
+    });
+    it(`CGPoint.toString(STRING) should return "{-1.2,3.4}"`, function(){
+      assert.equal( CGPoint.toString(STRING), `{-1.2,3.4}` );
+    });
+  });
+
+});
+
+describe(`CGPoint Instance Methods`, function(){
 
   describe(`#constructor()`, function(){
     it(`DEFAULT.x should return null`, function(){
@@ -190,8 +194,6 @@ describe(`Point`, function(){
     it(`ZERO should not equal STRING`, function(){
       assert.equal( ZERO.equalTo(STRING), false );
     });
-
-
 
 
     it(`DEFAULT should not equal ZERO`, function(){
@@ -327,10 +329,9 @@ describe(`Point`, function(){
 
 
     it(`#.equalTo() throws expected Errors`, function(){
-      let point = new Point();
+      let point = new CGPoint();
       assert.throws( point.equalTo, TypeError );
     })
   });
 
-
-});
+})
